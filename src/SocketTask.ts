@@ -24,7 +24,7 @@ function webviewReady(callback: Function) {
     if (!webview) {
         let html = require('./html/index.html')
         webview = plus.webview.create('http://www.dcloud.io', WEBVIEW_ID, {
-            kernel: 'UIWebview',
+            kernel: 'WKWebview',
             render: 'always',
             plusrequire: 'none'
         })
