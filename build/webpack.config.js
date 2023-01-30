@@ -33,7 +33,10 @@ module.exports = {
         rules: [
             {
                 test: /\.(str\.js)$/,
-                loader: 'raw-loader'
+                loader: 'raw-loader',
+                options: {
+                    esModule: false
+                },
             },
             {
                 test: /\.html$/,
@@ -56,7 +59,7 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
-                test: /\.js$/,
+                test: /^\w+\.js$/,
                 use: {
                     loader: "babel-loader",
                     options: babelOptions
