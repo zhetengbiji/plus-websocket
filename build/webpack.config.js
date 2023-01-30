@@ -1,5 +1,4 @@
 var path = require('path')
-var webpack = require('webpack')
 
 var argv = process.argv.splice(2)
 var dev = false
@@ -11,25 +10,21 @@ console.log('dev:', dev)
 
 var babelOptions = {
     presets: [
-        "es2015"
+        '@babel/preset-env'
     ]
-}
-
-var plugins = []
-
-if(!dev) {
-    plugins.push(new webpack.optimize.UglifyJsPlugin())
 }
 
 module.exports = {
     entry: path.join(__dirname, '../src/index.ts'),
     target: 'node',
+    mode: dev ? 'development' : 'production',
     output: {
         path: path.join(__dirname, '../out'),
         filename: 'index.js',
         libraryTarget: dev ? 'umd' : 'commonjs',
         library: dev ? 'socket' : '',
-        umdNamedDefine: dev
+        umdNamedDefine: dev,
+        globalObject: 'this'
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js"]
@@ -38,7 +33,10 @@ module.exports = {
         rules: [
             {
                 test: /\.(str\.js)$/,
-                loader: 'raw-loader'
+                loader: 'raw-loader',
+                options: {
+                    esModule: false
+                },
             },
             {
                 test: /\.html$/,
@@ -61,7 +59,7 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
-                test: /\.js$/,
+                test: /^\w+\.js$/,
                 use: {
                     loader: "babel-loader",
                     options: babelOptions
@@ -69,6 +67,5 @@ module.exports = {
                 exclude: /node_modules/
             }
         ]
-    },
-    plugins
+    }
 }
