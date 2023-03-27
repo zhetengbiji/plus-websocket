@@ -111,8 +111,11 @@
                 webSocket.addEventListener('error', () => {
                     $event.emit(`websocketerror${id}`, {})
                 })
-                webSocket.addEventListener('close', () => {
-                    $event.emit(`websocketclose${id}`, {})
+                webSocket.addEventListener('close', (event) => {
+                    $event.emit(`websocketclose${id}`, {
+                        code: event.code,
+                        reason: event.reason
+                    })
                 })
             }
         },
